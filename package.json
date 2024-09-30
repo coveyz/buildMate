@@ -1,0 +1,19 @@
+{
+  "name": "build-mate",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "keyword": [],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.6.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.6.2"
+  }
+}

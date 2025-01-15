@@ -2,18 +2,31 @@
   "name": "build-mate",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/cli-default.ts",
   "keyword": [],
+  "bin": {
+    "build-mate": "dist/cli-default.cjs"
+  },
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "preinstall": "npx only-allow pnpm",
+    "prepare": "husky install"
   },
   "keywords": [],
-  "author": "",
+  "author": "coveyz",
   "license": "ISC",
   "devDependencies": {
     "typescript": "^5.6.2"
   },
   "peerDependencies": {
     "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "@types/node": "^22.10.6",
+    "cac": "^6.7.14",
+    "colorette": "^2.0.20",
+    "flat": "^6.0.1",
+    "husky": "^9.1.7",
+    "ts-node": "^10.9.2"
   }
 }

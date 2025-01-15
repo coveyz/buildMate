@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "declaration": true,
+        "declarationDir": "dist",
+        "outDir": "./dist",
+        // 严格模式
+        "strict": true,
+        // 解析策略
+        "moduleResolution": "node",
+        // esm <-> cjs
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        // Disallow inconsistently-cased references to the same file
+        "forceConsistentCasingInFileNames": true
+    }
+}

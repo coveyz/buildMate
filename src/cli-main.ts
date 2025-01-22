@@ -52,7 +52,7 @@ export const main = async (options: Options = {}) => {
             //TODO: inject
             //TODO: define
             //TODO: loader
-            console.log('🕹️options=>', options);
+            // console.log('🕹️options=>', options);
             build(options);
         });
 

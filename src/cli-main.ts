@@ -22,6 +22,7 @@ export const main = async (options: Options = {}) => {
             '--external <name>',
             'Mark specific packages / package.json (dependencies and peerDependencies) as external',
         )
+        .option('--config <config>', 'Use a custom config file')
         .option('--no-config', 'Disable config file')
         .action(async (files: string[], flags) => {
             console.log('build-mate:action', { files, flags });

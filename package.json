@@ -5,9 +5,8 @@
   "main": "src/cli-default.ts",
   "keyword": [],
   "bin": {
-    "build-mate": "dist/cli-default.cjs"
+    "build-mate": "dist/cli-default.js"
   },
-  "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install"
@@ -23,10 +22,18 @@
   },
   "dependencies": {
     "@types/node": "^22.10.6",
+    "bundle-require": "^5.1.0",
     "cac": "^6.7.14",
     "colorette": "^2.0.20",
     "flat": "^6.0.1",
     "husky": "^9.1.7",
+    "joycon": "^3.1.1",
+    "strip-json-comments": "^4.0.0",
     "ts-node": "^10.9.2"
+  },
+  "build-mate": {
+    "entry": "src/index.ts",
+    "format": "esm",
+    "target": "es2017"
   }
 }

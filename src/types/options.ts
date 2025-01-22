@@ -43,4 +43,9 @@ export type Options = {
     target?: Target | Target[];
     /** Don't bundle these modules */
     external?: (string | RegExp)[];
+    /** 
+     * disable configFile width 'false'
+     * or set custom configFileName
+    */
+    config?: boolean | string;
 };

@@ -43,8 +43,7 @@
   },
   "encode-bundle": {
     "dts": {
-      "resolve": true,
-      "entry": "./src/index.ts"
+      "resolve": true
     }
   }
 }

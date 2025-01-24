@@ -70,7 +70,7 @@ export const normalizeOptions = async (
     const tsConfig = await loadTsConfig(process.cwd(), options.tsconfig);
     // console.log('🥳-normalizeOptions-tsConfig=>', tsConfig);
     if (tsConfig) {
-        logger.info('CLI', `Using tsconfig: ${path.relative(process.cwd(), tsConfig.path)}`)
+        logger.info('CLI', `Using tsconfig: ${path.relative(process.cwd(), tsConfig.path)} 📝`)
         options.tsconfig = tsConfig.path;
         options.tsconfigResolvePaths = tsConfig.data?.compilerOptions?.paths || {};
         options.tsconfigDecoratorMetaData = tsConfig.data?.compilerOptions?.emitDecoratorMetadata;

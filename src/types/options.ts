@@ -72,6 +72,7 @@ export type Options = {
     silent?: boolean;
     /** 自定义 tsconfig */
     tsconfig?: string;
+    watch?: boolean | string | (string | boolean)[];
 };
 
 export type NormalizedOptions = Omit<

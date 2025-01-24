@@ -32,6 +32,9 @@ importers:
       joycon:
         specifier: ^3.1.1
         version: 3.1.1
+      resolve-from:
+        specifier: ^5.0.0
+        version: 5.0.0
       rollup:
         specifier: ^4.31.0
         version: 4.31.0
@@ -465,6 +468,10 @@ packages:
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
+  resolve-from@5.0.0:
+    resolution: {integrity: sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==}
+    engines: {node: '>=8'}
+
   reusify@1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
@@ -822,6 +829,8 @@ snapshots:
   picomatch@2.3.1: {}
 
   queue-microtask@1.2.3: {}
+
+  resolve-from@5.0.0: {}
 
   reusify@1.0.4: {}
 

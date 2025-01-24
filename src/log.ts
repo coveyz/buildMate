@@ -37,7 +37,7 @@ export const makeLabel = (
 ) => {
     return [
         name && `${colors.dim('[')}${name.toUpperCase()}${colors.dim(']')}`,
-        colorize(type, input)
+        colorize(type, input.toUpperCase())
     ]
         .filter(Boolean)
         .join(' ');
@@ -72,14 +72,16 @@ export const createLogger = (name?: string) => {
             ];
 
             switch (type) {
-                case 'error':
+                case 'error': {
                     if (!isMainThread) {
                         parentPort?.postMessage({
                             type: 'error',
                             text: util.format(...args)
                         })
+                        return;
                     };
                     return console.error(...args);
+                }
                 default:
                     if (silent) return;
                     if (!isMainThread) {
@@ -90,7 +92,6 @@ export const createLogger = (name?: string) => {
                     }
                     console.log(...args);
             }
-
         }
     };
 };

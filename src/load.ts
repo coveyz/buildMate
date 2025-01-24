@@ -4,6 +4,7 @@ import JoyCon from 'joycon';
 import { bundleRequire } from 'bundle-require'
 
 import { jsoncParse } from './utils';
+import type { defineConfig } from './index';
 
 
 /** 🥰 load json */
@@ -18,7 +19,7 @@ export const loadJson = async (filePath: string) => {
 export const loadBuildMateConfig = async (
     cwd: string,
     configFile?: string
-) => {
+): Promise<{ path?: string, data?: ReturnType<typeof defineConfig> }> => {
     const configJoycon = new JoyCon();
     const configPath = await configJoycon.resolve({
         files: configFile

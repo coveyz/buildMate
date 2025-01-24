@@ -7,11 +7,26 @@ const defineConfig = (options: any) => {
 };
 
 
-export default defineConfig({
-    name: 'build-mate',
-    target: 'node16.14',
-    dts: {
-        resolve: true,
-        entry: './src/index.ts',
+export default defineConfig([
+    {
+        name: 'build-mate',
+        entry: ['src/index.ts'],
+        target: 'node16.14',
+        dts: {
+            resolve: true,
+            entry: './src/index.ts',
+        },
     },
-});
+    // {
+    //     name: 'build-mate',
+    //     entry: {
+    //         foo: 'src/index.ts',
+    //         // test: 'src/index'
+    //     },
+    //     target: 'node16.14',
+    //     dts: {
+    //         resolve: true,
+    //         entry: './src/index.ts',
+    //     },
+    // }
+]);

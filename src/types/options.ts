@@ -1,3 +1,6 @@
+import { MarkRequired } from 'ts-essentials';
+import type { InputOption } from 'rollup'
+
 export type BrowserTarget =
     | 'chrome'
     | 'deno'
@@ -34,7 +37,22 @@ export type Format = 'cjs' | 'iife' | 'esm';
 
 export type Entry = string[] | Record<string, string>;
 
-
+export type DtsConfig = {
+    entry?: InputOption;
+    /** 是否解析 声明文件中使用的外部类型 */
+    resolve?: boolean | (string | RegExp)[];
+    /** 是否 仅生成说明文件 */
+    only?: boolean;
+    /** 在每个输出的 .d.ts 文件顶部插入的内容 */
+    banner?: string;
+    /** 在每个输出的 .d.ts 文件底部插入的内容 */
+    footer?: string;
+    /** 
+     * 覆盖 tsconfig种的 compilerOptions 
+     * 优先级 高于 tsconfig.json中的 compilerOptions
+    */
+    compilerOptions?: any
+};
 
 export type Options = {
     name?: string;
@@ -43,9 +61,25 @@ export type Options = {
     target?: Target | Target[];
     /** Don't bundle these modules */
     external?: (string | RegExp)[];
-    /** 
-     * disable configFile width 'false'
-     * or set custom configFileName
-    */
+    /**
+     * false: 禁用配置文件
+     * 字符串： 传递一个自定义的配置文件名
+     */
     config?: boolean | string;
+    outDir?: string;
+    dts?: boolean | string | DtsConfig
+    /** 抑制 非错误日志 （不包含 onSuccess 进程中的） */
+    silent?: boolean;
+    /** 自定义 tsconfig */
+    tsconfig?: string;
 };
+
+export type NormalizedOptions = Omit<
+    MarkRequired<Options, 'entry' | 'outDir'>,
+    'dts' | 'format'
+> & {
+    dts?: DtsConfig;
+    tsconfigDecoratorMetaData?: boolean;
+    tsconfigResolvePaths: Record<string, string[]>;
+    format: Format[];
+}

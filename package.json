@@ -24,11 +24,14 @@
     "@types/node": "^22.10.6",
     "bundle-require": "^5.1.0",
     "cac": "^6.7.14",
-    "colorette": "^2.0.20",
+    "colorette": "^2.0.16",
     "flat": "^6.0.1",
+    "globby": "^14.0.2",
     "husky": "^9.1.7",
     "joycon": "^3.1.1",
+    "rollup": "^4.31.0",
     "strip-json-comments": "^4.0.0",
+    "ts-essentials": "^10.0.4",
     "ts-node": "^10.9.2"
   },
   "build-mate": {

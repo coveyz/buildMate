@@ -7,6 +7,10 @@ import type { LoG_TYPE } from './types/log';
 
 let silent = false;
 
+export const setSilent = (isSilent?: boolean) => {
+    silent = !!isSilent;
+}
+
 /** 📔 根据日志类型 为数据添加颜色 */
 export const colorize = (
     type: LoG_TYPE,

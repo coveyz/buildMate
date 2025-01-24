@@ -1,7 +1,21 @@
 import { loadBuildMateConfig } from './load';
 import { createLogger } from './log';
+import { normalizeOptions } from './options';
+import type { MaybePromise } from './types/utils';
 import type { Options } from './types/options';
 
+export type { Options };
+
+
+
+export const defineConfig = (
+    options:
+        | Options
+        | Options[]
+        | ((
+            overrideOptions: Options
+        ) => MaybePromise<Options | Options[]>)
+) => options;
 
 export const build = async (_options: Options) => {
     // console.log('🕹️-beforeBuild-options=>', _options);
@@ -13,15 +27,18 @@ export const build = async (_options: Options) => {
             process.cwd(),
             _options.config === true ? undefined : _options.config
         );
-    console.log('🕹️-buildMate-config=>', config);
+    // console.log('🕹️-buildMate-config=>', config);
 
     const configData = typeof config.data === 'function' ? await config.data(_options) : config.data;
     // console.log('🕹️-buildMate-configData=>', configData);
 
     await Promise.all(
         [...(Array.isArray(configData) ? configData : [configData])].map(async item => {
-            console.log('🕹️-buildMate-item=>', item);
+            // console.log('🕹️-buildMate-item=>', item);
+            const logger = createLogger(item?.name);
+            const options = await normalizeOptions(logger, item, _options);
 
+            console.log('🕹️-buildMate-options=>', options);
         })
     );
 };

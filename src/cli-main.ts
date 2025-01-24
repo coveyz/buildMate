@@ -53,10 +53,10 @@ export const main = async (options: Options = {}) => {
             //TODO: define
             //TODO: loader
             // console.log('🕹️options=>', options);
-            build(options);
+            await build(options);
         });
 
     cli.help();
     cli.parse(process.argv, { run: false });
-    cli.runMatchedCommand();
+    await cli.runMatchedCommand();
 };

@@ -37,6 +37,17 @@ export type Format = 'cjs' | 'iife' | 'esm';
 
 export type Entry = string[] | Record<string, string>;
 
+export type ContextForOutPathGeneration = {
+    options: NormalizedOptions;
+    format: Format;
+    /** "type" field in project's package.json */
+    pkgType?: string;
+};
+
+export type OutExtensionObject = { js?: string, dts?: string };
+
+export type OutExtensionFactory = (ctx: ContextForOutPathGeneration) => OutExtensionObject;
+
 export type DtsConfig = {
     entry?: InputOption;
     /** 是否解析 声明文件中使用的外部类型 */
@@ -73,6 +84,14 @@ export type Options = {
     /** 自定义 tsconfig */
     tsconfig?: string;
     watch?: boolean | string | (string | boolean)[];
+    /** 清理输出目录 */
+    clean?: boolean | string[];
+    outExtension?: OutExtensionFactory;
+    /**
+  * Interop default within `module.exports` in cjs
+  * @default false
+  */
+    cjsInterop?: boolean;
 };
 
 export type NormalizedOptions = Omit<

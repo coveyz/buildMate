@@ -7,13 +7,50 @@ import { jsoncParse } from './utils';
 import type { defineConfig } from './index';
 
 
+const joycon = new JoyCon();
+
 /** 🥰 load json */
 export const loadJson = async (filePath: string) => {
     try {
         return jsoncParse(await fs.promises.readFile(filePath, 'utf-8'));
     } catch (error) {
     }
-}
+};
+
+const jsonLoader = {
+    test: /\.json/,
+    load(filepath: string) {
+        return loadJson(filepath);
+    }
+};
+
+joycon.addLoader(jsonLoader);
+
+/** 🥰 加载 packageJson 返回内容 */
+export const loadPkg = async (cwd: string, clearCache: boolean = false) => {
+    if (clearCache) {
+        joycon.clearCache();
+    };
+
+    const { data } = await joycon.load(['package.json'], cwd, path.dirname(cwd));
+
+    return data || {};
+};
+
+/** 🥰 获取项目中的生产依赖项 */
+export const getProductionDeps = async (cwd: string, clearCache: boolean = false) => {
+    const data = await loadPkg(cwd, clearCache);
+
+    const deps = Array.from(
+        new Set([
+            ...Object.keys(data.dependencies || {}),
+            ...Object.keys(data.peerDependencies || {}),
+        ])
+    );
+
+    return deps;
+};
+
 
 /** 🥰 读取 buildMate 配置文件 */
 export const loadBuildMateConfig = async (
@@ -63,3 +100,4 @@ export const loadBuildMateConfig = async (
 
     return {};
 }
+

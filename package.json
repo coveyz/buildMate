@@ -22,16 +22,23 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
+    "@rollup/plugin-json": "^6.1.0",
+    "@types/debug": "^4.1.12",
     "@types/node": "^22.10.6",
+    "@types/resolve": "^1.20.6",
     "bundle-require": "^5.1.0",
     "cac": "^6.7.14",
     "colorette": "^2.0.16",
+    "debug": "^4.4.0",
     "flat": "^6.0.1",
     "globby": "^14.0.2",
     "husky": "^9.1.7",
     "joycon": "^3.1.1",
+    "resolve": "^1.22.10",
     "resolve-from": "^5.0.0",
     "rollup": "^4.31.0",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-hashbang": "^3.0.0",
     "strip-json-comments": "^4.0.0",
     "ts-essentials": "^10.0.4",
     "ts-node": "^10.9.2"

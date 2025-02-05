@@ -1,3 +1,7 @@
+import fs from 'fs';
+
+import type { ContextForOutPathGeneration, OutExtensionObject } from './types/options';
+
 /** 
  * 🕹️ 普通路径 反斜杠改成 正斜杠
  * 🕹️ 拓展长度路径 和 包含非ASCII 除外
@@ -29,7 +33,7 @@ export const jsoncParse = async (data: string) => {
     }
 };
 
-/** 是否为空，针对 数组、对象、字符串、new Map()、new Set()、null、undefined 进行判断，null、undefined 直接返回 true，也就是直接等于空 */
+/** 🕹️ 是否为空，针对 数组、对象、字符串、new Map()、new Set()、null、undefined 进行判断，null、undefined 直接返回 true，也就是直接等于空 */
 export const isEmpty = (data: any): boolean => {
     if (data === null || data === undefined) return true;
     if (typeof data === 'string') return data.trim() === '';
@@ -85,3 +89,41 @@ export const convertToObjectEntry = (entries: string[]): Record<string, string> 
     }, {});
 };
 
+export const removeFiles = async (patterns: string[], dir: string) => {
+    const { globby } = await import('globby');
+    const files = await globby(patterns, {
+        cwd: dir,
+        absolute: true,
+    });
+
+    await Promise.all(files.map(file => fs.promises.unlink(file)));
+};
+
+
+export const defaultOutExtension = ({
+    format,
+    pkgType
+}: Omit<ContextForOutPathGeneration, 'options'>): OutExtensionObject => {
+    let jsExtension = '.js',
+        dtsExtension = '.d.ts';
+    const isModule = pkgType === 'module';
+
+    if (isModule && format === 'cjs') {
+        jsExtension = '.cjs'
+        dtsExtension = '.d.cts';
+    }
+
+    if (!isModule && format === 'esm') {
+        jsExtension = '.mjs';
+        dtsExtension = '.d.mts';
+    };
+
+    if (format === 'iife') {
+        jsExtension = '.global.js';
+    };
+
+    return {
+        js: jsExtension,
+        dts: dtsExtension,
+    }
+}

@@ -89,6 +89,7 @@ export const createLogger = (name?: string) => {
                             type: 'log',
                             text: util.format(...args)
                         })
+                        return;
                     }
                     console.log(...args);
             }

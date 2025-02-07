@@ -1,5 +1,4 @@
 import { cac } from 'cac';
-import flat from 'flat';
 
 import { slash, ensureArray } from './utils';
 import type { Options, Format } from './types/options';
@@ -24,6 +23,10 @@ export const main = async (options: Options = {}) => {
         )
         .option('--config <config>', 'Use a custom config file')
         .option('--no-config', 'Disable config file')
+        .option('--watch [path]',
+            'Watch mode, if path is not specified, it watches the current folder "." . Repeat "--watch" for more than one path'
+        )
+        .option('--ignore-watch <path>', 'Ignore custom paths in watch mode')
         .action(async (files: string[], flags) => {
             console.log('build-mate:action', { files, flags });
             const { build } = await import('.');
@@ -44,7 +47,7 @@ export const main = async (options: Options = {}) => {
                     ? flags.target.split(',')
                     : flags.target;
             }
-            if (flags.external)  {
+            if (flags.external) {
                 const external = ensureArray(flags.external);
                 options.external = external;
             }

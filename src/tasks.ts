@@ -6,10 +6,10 @@ import type { NormalizedOptions, Options } from './types/options';
 
 /** 📝 处理 typescript 声明文件的生成 */
 export const dtsTask = async (options: NormalizedOptions, item?: Options) => {
-    // console.log('📝-buildMate-dtsTask-options=>', options);
     if (options.dts) {
         await new Promise<void>((resolve, reject) => {
             const worker = new Worker(path.join(__dirname, './rollup.js'));
+
             worker.postMessage({
                 configName: item?.name,
                 options: {
@@ -26,7 +26,7 @@ export const dtsTask = async (options: NormalizedOptions, item?: Options) => {
             });
             worker.on('message', (data) => {
                 if (data === 'error') {
-                    reject(new Error('error occured in dts build'));
+                    reject(new Error('error occurred in dts build'));
                 } else if (data === 'success') {
                     resolve();
                 } else {

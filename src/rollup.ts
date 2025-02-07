@@ -1,21 +1,23 @@
+import path from 'path';
 import { parentPort } from 'worker_threads';
 import resolveFrom from 'resolve-from';
 import ts from 'typescript';
 import hashbangPlugin from 'rollup-plugin-hashbang';
 import jsonPlugin from '@rollup/plugin-json';
-import type { Plugin, InputOption, OutputOptions } from 'rollup';
+import type { Plugin, InputOptions, OutputOptions } from 'rollup';
 
 import { createLogger, setSilent } from './log';
 import { loadPkg, getProductionDeps } from './load';
+import { handleError } from './errors';
 import { isEmpty, convertToObjectEntry, removeFiles, defaultOutExtension } from './utils';
 import { tsResolvePlugin } from './rollup/ts-resolve';
+import { reportSize } from './lib/report-size';
 import type { NormalizedOptions } from './types/options';
 import type { RollupConfig, TsResolveOptions } from './types/rollup';
 
 
 
 const logger = createLogger();
-
 const dtsPlugin: typeof import('rollup-plugin-dts') = require('rollup-plugin-dts');
 
 /** 🧰 解析 TypeScript 编译选项 */
@@ -37,6 +39,7 @@ const getRollupConfig = async (options: NormalizedOptions): Promise<RollupConfig
     if (Array.isArray(dtsOptions.entry) && dtsOptions.entry.length > 1) {
         dtsOptions.entry = convertToObjectEntry(dtsOptions.entry);
     };
+
 
     /** 🧰 处理 typescript 解析器选项 */
     let tsResolveOptions: TsResolveOptions | undefined;
@@ -157,10 +160,77 @@ const getRollupConfig = async (options: NormalizedOptions): Promise<RollupConfig
     }
 };
 
+/** 🧰 监听 rollup */
+const watchRollup = async (options: { inputConfig: InputOptions, outputConfig: OutputOptions[] }) => {
+    const { watch } = await import('rollup');
+
+    watch({
+        ...options.inputConfig,
+        plugins: options.inputConfig.plugins,
+        output: options.outputConfig,
+    }).on('event', (event) => {
+        if (event.code === 'START') {
+            logger.info('DTS', 'Build start');
+        }
+        else if (event.code === 'BUNDLE_END') {
+            logger.success('DTS', `⚡️ Build success in ${event.duration}ms`);
+            parentPort?.postMessage('success');
+        }
+        else if (event.code === 'ERROR') {
+            logger.error('DTS', `Build fail`);
+            handleError(event.error);
+        }
+    });
+};
+
+/** 🧰 运行 rollup */
+const runRollup = async (options: RollupConfig) => {
+    const { rollup } = await import('rollup');
+
+    try {
+        const start = Date.now();
+        const getDuration = () => `${Math.floor(Date.now() - start)}ms`;
+        logger.info('DTS', 'Build start');
+        const bundle = await rollup(options.inputConfig);
+        /** 🧰 写入 输出文件 */
+        const results = await Promise.all(options.outputConfig.map(bundle.write));
+        const outputs = results.flatMap((result) => result.output);
+
+        logger.success('DTS', `⚡️ Build success in ${getDuration()}`);
+        reportSize(
+            logger,
+            'DTS',
+            outputs.reduce((acc,cur) => {
+                const name = path.relative(
+                    process.cwd(),
+                    path.join(options.outputConfig[0].dir || '.', cur.fileName)
+                );
+                return {
+                    ...acc,
+                    [name]: cur.type === 'chunk' ? cur.code.length : cur.source.length
+                }
+            }, {})
+        );
+    } catch (error) {
+        handleError(error);
+        logger.error('DTS', `Build error`);
+    }
+};
 
 async function startRollup(options: NormalizedOptions) {
     const config = await getRollupConfig(options);
-    console.log('🧰-startRollup-startRollup-config', config);
+
+    if (options.watch) {
+        watchRollup(config);
+    } else {
+        try {
+            await runRollup(config);
+            parentPort?.postMessage('success');
+        } catch (error) {
+            parentPort?.postMessage('error');
+        };
+        parentPort?.close();
+    };
 }
 
 parentPort?.on('message', (data) => {

@@ -65,6 +65,10 @@ export type DtsConfig = {
     compilerOptions?: any
 };
 
+/**
+ * The options available in encode-bundle.config.ts
+ * Not all of them are available from CLI flags
+ */
 export type Options = {
     name?: string;
     entry?: Entry;

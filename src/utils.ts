@@ -74,7 +74,6 @@ const findCommonAncestor = (filePaths: string[]): string => {
 export const convertToObjectEntry = (entries: string[]): Record<string, string> => {
     entries = entries.map(item => item.replace(/\\/g, '/'));
     const ancestor = findCommonAncestor(entries);
-    console.log('ancestor', ancestor);
 
     return entries.reduce((acc, cur) => {
         const key = cur

@@ -1,6 +1,12 @@
 import { MarkRequired } from 'ts-essentials';
 import type { InputOption } from 'rollup'
 
+/** 
+ * SIGKILL 无法捕获错误  
+ * SIGTERM 可以捕获错误
+*/
+export type KILL_SIGNAL = 'SIGKILL' | "SIGTERM";
+
 export type BrowserTarget =
     | 'chrome'
     | 'deno'
@@ -96,6 +102,8 @@ export type Options = {
   * @default false
   */
     cjsInterop?: boolean;
+    killSignal?: KILL_SIGNAL;
+    sourcemap?: boolean | 'inline';
 };
 
 export type NormalizedOptions = Omit<

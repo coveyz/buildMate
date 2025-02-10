@@ -110,7 +110,6 @@ export const mainTask = async (
             const css: Map<string, string> = new Map();
             await Promise.all([
                 ...options.format.map(async (format, index) => {
-                    console.log('test->')      
                 })
             ])
         };

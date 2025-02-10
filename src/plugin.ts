@@ -8,6 +8,26 @@ import { isJS, isCSS } from './utils';
 import { outputFile } from './fs';
 import type { Plugin, PluginContext, AssetInfo, ChunkInfo, WrittenFile } from './types/plugin';
 
+/** 📦 生成 sourceMap 注释 */
+const getSourceMapComment = (
+    inline: boolean,
+    map: RawSourceMap | string | null | undefined,
+    filePath: string,
+    isCssFile: boolean
+) => {
+    if (!map) return '';
+
+    const prefix = isCssFile ? '/*' : '//',
+        suffix = isCssFile ? '*/' : '';
+    const url = inline
+        ? `data:application/json;base64,${Buffer.from(
+            typeof map === 'string' ? map : JSON.stringify(map)
+        ).toString('base64')}`
+        : `${path.basename(filePath)}.map`;
+
+    return `${prefix}# sourceMappingURL=${url}${suffix}`;
+};
+
 
 /** 📦 PluginContainer */
 export class PluginContainer {
@@ -133,24 +153,4 @@ export class PluginContainer {
             }
         }));
     };
-};
-
-
-const getSourceMapComment = (
-    inline: boolean,
-    map: RawSourceMap | string | null | undefined,
-    filePath: string,
-    isCssFile: boolean
-) => {
-    if (!map) return '';
-
-    const prefix = isCssFile ? '/*' : '//',
-        suffix = isCssFile ? '*/' : '';
-    const url = inline
-        ? `data:application/json;base64,${Buffer.from(
-            typeof map === 'string' ? map : JSON.stringify(map)
-        ).toString('base64')}`
-        : `${path.basename(filePath)}.map`;
-
-    return `${prefix}# sourceMappingURL=${url}${suffix}`;
 };

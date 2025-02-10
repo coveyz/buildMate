@@ -28,7 +28,7 @@ export const main = async (options: Options = {}) => {
         )
         .option('--ignore-watch <path>', 'Ignore custom paths in watch mode')
         .action(async (files: string[], flags) => {
-            console.log('build-mate:action', { files, flags });
+            // console.log('build-mate:action', { files, flags });
             const { build } = await import('.');
 
             Object.assign(options, {

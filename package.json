@@ -30,6 +30,7 @@
     "cac": "^6.7.14",
     "colorette": "^2.0.16",
     "debug": "^4.4.0",
+    "esbuild": "^0.25.0",
     "flat": "^6.0.1",
     "globby": "^14.0.2",
     "husky": "^9.1.7",
@@ -39,7 +40,9 @@
     "rollup": "^4.31.0",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-hashbang": "^3.0.0",
+    "source-map": "^0.7.4",
     "strip-json-comments": "^4.0.0",
+    "tree-kill": "^1.2.2",
     "ts-essentials": "^10.0.4",
     "ts-node": "^10.9.2"
   },

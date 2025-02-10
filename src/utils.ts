@@ -33,6 +33,10 @@ export const jsoncParse = async (data: string) => {
     }
 };
 
+export const parseSourceMap = (map?: string | object | null) => {
+    return typeof map === 'string' ? JSON.parse(map) : map;
+}
+
 /** 🕹️ 是否为空，针对 数组、对象、字符串、new Map()、new Set()、null、undefined 进行判断，null、undefined 直接返回 true，也就是直接等于空 */
 export const isEmpty = (data: any): boolean => {
     if (data === null || data === undefined) return true;
@@ -125,4 +129,9 @@ export const defaultOutExtension = ({
         js: jsExtension,
         dts: dtsExtension,
     }
-}
+};
+
+/** 🕹️ 是否是 JS 文件 */
+export const isJS = (path: string) => /\.(js|mjs|cjs)$/.test(path);
+/** 🕹️ 是否是 CSS 文件 */
+export const isCSS = (path: string) => /\.css$/.test(path);

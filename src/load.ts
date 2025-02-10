@@ -99,5 +99,18 @@ export const loadBuildMateConfig = async (
     };
 
     return {};
-}
+};
 
+/** 
+ * 🥰 获取所有依赖的哈希值 
+ * 用它来决定 packagesJson 改变时是否需要重新构建
+*/
+export const getAllDependenciesHash = async (cwd: string) => {
+    const data = await loadPkg(cwd, true);
+
+    return JSON.stringify({
+        ...data.dependencies,
+        ...data.peerDependencies,
+        ...data.devDependencies
+    })
+};

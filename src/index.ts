@@ -2,7 +2,7 @@ import { loadBuildMateConfig } from './load';
 import { createLogger } from './log';
 import { normalizeOptions } from './options';
 import { version } from '../package.json';
-import { dtsTask } from './tasks';
+import { dtsTask, mainTask } from './tasks';
 import type { MaybePromise } from './types/utils';
 import type { Options, Format } from './types/options';
 
@@ -38,13 +38,16 @@ export const build = async (_options: Options) => {
             logger.info('CLI', `build-mate v${version} 📝`);
 
             if (config.path) {
-                logger.info('CLI', `Using build-mate config: ${config.path} 📝`);
+            logger.info('CLI', `Using build-mate config: ${config.path} 📝`);
             };
             if (options.watch) {
                 logger.info('CLI', `Running in watch mode 👓`);
             };
 
-            await Promise.all([dtsTask(options, item)]);
+            await Promise.all([
+                dtsTask(options, item),
+                mainTask(options, logger)
+            ]);
         })
     );
 };

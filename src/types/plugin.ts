@@ -1,6 +1,6 @@
 import type { BuildOptions as EsbuildOptions, Metafile } from 'esbuild';
 import type { RawSourceMap } from 'source-map';
-import type { SourceMap } from 'rollup';
+import type { SourceMap, TreeshakingOptions, TreeshakingPreset } from 'rollup';
 
 import type { Format, NormalizedOptions } from './options';
 import type { Logger } from './log';
@@ -65,3 +65,5 @@ export type Plugin = {
     renderChunk?: RenderChunk;
     buildEnd?: BuildEnd;
 };
+
+export type TreeshakingStrategy = boolean | TreeshakingOptions | TreeshakingPreset;

@@ -5,6 +5,8 @@ import type { ChildProcess } from 'child_process';
 
 import { getAllDependenciesHash } from './load';
 import { removeFiles } from './utils';
+import { PluginContainer } from './plugin';
+import { shebang, treeShakingPlugin, cjsSplitting, cjsInterop, es5, sizeReporter, terserPlugin } from './plugins';
 import type { NormalizedOptions, Options, KILL_SIGNAL } from './types/options';
 import type { Logger } from './types/log';
 
@@ -110,6 +112,26 @@ export const mainTask = async (
             const css: Map<string, string> = new Map();
             await Promise.all([
                 ...options.format.map(async (format, index) => {
+                    const pluginContainer = new PluginContainer([
+                        shebang(),
+                        ...(options.plugins || []),
+                        treeShakingPlugin({
+                            treeshake: options.treeshake,
+                            name: options.globalName,
+                            silent: options.silent
+                        }),
+                        cjsSplitting(),
+                        cjsInterop(),
+                        es5(),
+                        sizeReporter(),
+                        terserPlugin({
+                            minifyOptions: options.minify,
+                            format: format,
+                            terserOptions: options.terserOptions,
+                            globalName: options.globalName,
+                            logger,
+                        })
+                    ])
                 })
             ])
         };
@@ -117,4 +139,4 @@ export const mainTask = async (
         logger.info('CLI', `Target: ${options.target} 🎯`);
         await buildAll();
     };
-}
+};

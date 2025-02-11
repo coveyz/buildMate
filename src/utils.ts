@@ -1,6 +1,9 @@
 import fs from 'fs';
+import resolveFrom from 'resolve-from';
 
 import type { ContextForOutPathGeneration, OutExtensionObject } from './types/options';
+
+
 
 /** 
  * 🕹️ 普通路径 反斜杠改成 正斜杠
@@ -135,3 +138,9 @@ export const defaultOutExtension = ({
 export const isJS = (path: string) => /\.(js|mjs|cjs)$/.test(path);
 /** 🕹️ 是否是 CSS 文件 */
 export const isCSS = (path: string) => /\.css$/.test(path);
+
+
+export const localRequire = (moduleName: string) => {
+    const path = resolveFrom.silent(process.cwd(), moduleName);
+    return path && require(path);
+};

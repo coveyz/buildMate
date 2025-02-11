@@ -32,7 +32,7 @@ const getSourceMapComment = (
 /** 📦 PluginContainer */
 export class PluginContainer {
     plugins: Plugin[];
-    context: PluginContext;
+    context?: PluginContext;
 
     constructor(plugins: Plugin[]) {
         this.plugins = plugins;

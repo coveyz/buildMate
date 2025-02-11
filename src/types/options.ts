@@ -1,5 +1,10 @@
 import { MarkRequired } from 'ts-essentials';
 import type { InputOption } from 'rollup'
+import type { MinifyOptions } from 'terser';
+
+import { Plugin, TreeshakingStrategy } from './plugin';
+
+
 
 /** 
  * SIGKILL 无法捕获错误  
@@ -104,6 +109,20 @@ export type Options = {
     cjsInterop?: boolean;
     killSignal?: KILL_SIGNAL;
     sourcemap?: boolean | 'inline';
+    /**
+     * BuildMate Plugin 📦
+     * @experimental
+     * @alpha
+     */
+    plugins: Plugin[];
+    /**
+     * 默认 esbuild 已经支持了 treeshaking
+     * 还可以通过 这个选项让 rollup 进行额外的摇树，可以使打包文件更小
+     */
+    treeshake: TreeshakingStrategy;
+    globalName?: string;
+    minify?: boolean | 'terser';
+    terserOptions?: MinifyOptions;
 };
 
 export type NormalizedOptions = Omit<

@@ -1,7 +1,8 @@
 import fs from 'fs';
 import resolveFrom from 'resolve-from';
 
-import type { ContextForOutPathGeneration, OutExtensionObject } from './types/options';
+import type { Format } from './types/options';
+import type { Truthy } from './types/utils';
 
 
 
@@ -109,7 +110,10 @@ export const removeFiles = async (patterns: string[], dir: string) => {
 export const defaultOutExtension = ({
     format,
     pkgType
-}: Omit<ContextForOutPathGeneration, 'options'>): OutExtensionObject => {
+}: {
+    format: Format;
+    pkgType?: string
+}): { js: string; dts: string } => {
     let jsExtension = '.js',
         dtsExtension = '.d.ts';
     const isModule = pkgType === 'module';
@@ -148,3 +152,7 @@ export const localRequire = (moduleName: string) => {
     const path = resolveFrom.silent(process.cwd(), moduleName);
     return path && require(path);
 };
+
+export const truthy = <T>(value: T): value is Truthy<T> => {
+    return Boolean(value)
+}

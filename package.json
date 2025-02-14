@@ -32,6 +32,7 @@
     "bundle-require": "^5.1.0",
     "cac": "^6.7.14",
     "colorette": "^2.0.16",
+    "consola": "^3.4.0",
     "debug": "^4.4.0",
     "esbuild": "^0.25.0",
     "flat": "^6.0.1",
@@ -62,6 +63,7 @@
   "encode-bundle": {
     "dts": {
       "resolve": true
-    }
+    },
+    "shims": true
   }
 }

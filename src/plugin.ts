@@ -63,7 +63,7 @@ export class PluginContainer {
         metafile,
     }: {
         outputFiles: OutputFile[];
-        metafile: Metafile;
+        metafile?: Metafile;
     }) {
         const files: Array<AssetInfo | ChunkInfo> = outputFiles
             .filter((file) => !file.path.endsWith('.map'))

@@ -77,6 +77,14 @@ export type DtsConfig = {
     compilerOptions?: any
 };
 
+export type BannerOrFooter =
+    | {
+        js?: string;
+        css?: string;
+    }
+    | ((ctx: { format: Format }) => { js?: string; css?: string } | undefined)
+
+
 /**
  * The options available in encode-bundle.config.ts
  * Not all of them are available from CLI flags
@@ -157,6 +165,29 @@ export type Options = {
     */
     skipNodeModulesBundle?: boolean;
     esbuildPlugins?: EsbuildPlugin[];
+    banner?: BannerOrFooter;
+    footer?: BannerOrFooter;
+    /** Disable bundling, default to false */
+    bundle?: boolean;
+    jsxFactory?: string;
+    jsxFragment?: string;
+    define?: { [k: string]: string };
+    /**
+ * This option allows you to automatically replace a global variable with an import from another file.
+ * @see https://esbuild.github.io/api/#inject
+ */
+    inject?: string[];
+    /**
+     * 将不同的格式输出到不同的文件夹，而不是使用不同的扩展名。
+     */
+    legacyOutput?: boolean;
+    minifyIdentifiers?: boolean;
+    minifySyntax?: boolean;
+    keepNames?: boolean;
+    /**
+     * @see https://esbuild.github.io/api/#pure
+     */
+    pure?: string | string[];
 };
 
 export type NormalizedOptions = Omit<

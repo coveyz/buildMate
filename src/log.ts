@@ -11,6 +11,10 @@ export const setSilent = (isSilent?: boolean) => {
     silent = !!isSilent;
 }
 
+export const getSilent = () => {
+    return silent;
+}
+
 /** 📔 根据日志类型 为数据添加颜色 */
 export const colorize = (
     type: LoG_TYPE,

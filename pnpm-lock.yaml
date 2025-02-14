@@ -29,6 +29,9 @@ importers:
       colorette:
         specifier: ^2.0.16
         version: 2.0.16
+      consola:
+        specifier: ^3.4.0
+        version: 3.4.0
       debug:
         specifier: ^4.4.0
         version: 4.4.0
@@ -834,6 +837,10 @@ packages:
   commander@8.3.0:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
     engines: {node: '>= 12'}
+
+  consola@3.4.0:
+    resolution: {integrity: sha512-EiPU8G6dQG0GFHNR8ljnZFki/8a+cQwEQ+7wpxdChl02Q8HXlwEZWD5lqAF8vC2sEC3Tehr8hy7vErz88LHyUA==}
+    engines: {node: ^14.18.0 || >=16.10.0}
 
   content-disposition@0.5.4:
     resolution: {integrity: sha512-FveZTNuGw04cxlAiWbzi6zTAL/lhehaWbTtgluJh4/E95DqMwTmha3KZN1aAWA8cFIhHzMZUvLevkw5Rqk+tSQ==}
@@ -2101,6 +2108,8 @@ snapshots:
   commander@6.2.1: {}
 
   commander@8.3.0: {}
+
+  consola@3.4.0: {}
 
   content-disposition@0.5.4:
     dependencies:

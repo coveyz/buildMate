@@ -188,6 +188,7 @@ export type Options = {
      * @see https://esbuild.github.io/api/#pure
      */
     pure?: string | string[];
+    onSuccess?: string | (() => Promise<void | undefined | (() => void | Promise<void>)>)
 };
 
 export type NormalizedOptions = Omit<

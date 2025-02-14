@@ -1,6 +1,7 @@
 import path from 'path'
 import { Worker } from 'worker_threads';
 import kill from 'tree-kill';
+import execa from 'execa';
 import type { ChildProcess } from 'child_process';
 
 import { getAllDependenciesHash } from './load';
@@ -141,9 +142,29 @@ export const mainTask = async (
                         css: index === 0 || options.injectStyle ? css : undefined,
                         logger,
                         buildDependencies,
-                    })
+                    }).catch((error) => {
+                        preBuildDependencies.forEach((v) => buildDependencies.add(v));
+                        throw error;
+                    });
                 })
-            ])
+            ]);
+
+            if (options.onSuccess) {
+                if (typeof options.onSuccess === 'function') {
+                    onSuccessCleanup = await options.onSuccess();
+                } else {
+                    onSuccessProcess = execa(options.onSuccess, {
+                        shell: true,
+                        stdio: 'inherit',
+                    });
+
+                    onSuccessProcess.on('exit', (code) => {
+                        if (code && code !== 0) {
+                            process.exitCode = code;
+                        }
+                    });
+                }
+            };
         };
 
         logger.info('CLI', `Target: ${options.target} 🎯`);

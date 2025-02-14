@@ -1,6 +1,7 @@
 import { MarkRequired } from 'ts-essentials';
 import type { InputOption } from 'rollup'
 import type { MinifyOptions } from 'terser';
+import type { Loader, BuildOptions, Plugin as EsbuildPlugin } from 'esbuild';
 
 import { Plugin, TreeshakingStrategy } from './plugin';
 
@@ -114,15 +115,48 @@ export type Options = {
      * @experimental
      * @alpha
      */
-    plugins: Plugin[];
+    plugins?: Plugin[];
     /**
      * 默认 esbuild 已经支持了 treeshaking
      * 还可以通过 这个选项让 rollup 进行额外的摇树，可以使打包文件更小
      */
-    treeshake: TreeshakingStrategy;
+    treeshake?: TreeshakingStrategy;
     globalName?: string;
     minify?: boolean | 'terser';
     terserOptions?: MinifyOptions;
+    /**
+     * Inject CSS as style tags to document head
+     * @default false
+     */
+    injectStyle?: boolean | ((css: string, fileId: string) => string);
+    env?: {
+        [k: string]: string
+    },
+    /** 
+     *  Replace `process.env.NODE_ENV` with `production` or `development`
+     * `production` when the bundled is minified, `development` otherwise
+    */
+    replaceNodeEnv?: boolean;
+    minifyWhitespace?: boolean;
+    /**
+     * 代码分割
+     * esm 默认 true， cjs 默认 false
+     */
+    splitting?: boolean;
+    platform?: 'node' | 'browser' | 'neutral';
+    /** esbuild loader options */
+    loader?: Record<string, Loader>;
+    /** 必要时 注入 esm 和 cjs 垫片 */
+    shims?: boolean;
+    esbuildOptions?: (options: BuildOptions, context: { format: Format }) => void;
+    /** 不会被视为 外部依赖 */
+    noExternal?: (string | RegExp)[];
+    /** 
+     * 是否跳过 nodeModules 中模块打包 
+     * true 的时候 noExternal选项中的模块仍然会被打包
+    */
+    skipNodeModulesBundle?: boolean;
+    esbuildPlugins?: EsbuildPlugin[];
 };
 
 export type NormalizedOptions = Omit<

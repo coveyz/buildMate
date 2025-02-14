@@ -11,7 +11,7 @@ export const treeShakingPlugin = ({
     name,
     silent
 }: {
-    treeshake: TreeshakingStrategy
+    treeshake?: TreeshakingStrategy
     name?: string;
     silent?: boolean;
 }): Plugin => {

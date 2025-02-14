@@ -101,8 +101,25 @@ export const loadBuildMateConfig = async (
     return {};
 };
 
+/**
+ * 🥰 获取 生产依赖
+ */
+export const getProductDependencies = async (
+    cwd: string, clearCache: boolean = false
+) => {
+    const data = await loadPkg(cwd, clearCache);
+    const deps = Array.from(
+        new Set([
+            ...Object.keys(data.dependencies || {}),
+            ...Object.keys(data.peerDependencies || {}),
+        ])
+    );
+
+    return deps;
+}
+
 /** 
- * 🥰 获取所有依赖的哈希值 
+ * 🥰 获取 所有依赖的哈希值 
  * 用它来决定 packagesJson 改变时是否需要重新构建
 */
 export const getAllDependenciesHash = async (cwd: string) => {

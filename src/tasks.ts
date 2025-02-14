@@ -6,6 +6,7 @@ import type { ChildProcess } from 'child_process';
 import { getAllDependenciesHash } from './load';
 import { removeFiles } from './utils';
 import { PluginContainer } from './plugin';
+import { runEsbuild } from './esbuild';
 import { shebang, treeShakingPlugin, cjsSplitting, cjsInterop, es5, sizeReporter, terserPlugin } from './plugins';
 import type { NormalizedOptions, Options, KILL_SIGNAL } from './types/options';
 import type { Logger } from './types/log';
@@ -131,7 +132,16 @@ export const mainTask = async (
                             globalName: options.globalName,
                             logger,
                         })
-                    ])
+                    ]);
+                    // console.log('📝-pluginContainer=>', pluginContainer);
+
+                    await runEsbuild(options, {
+                        pluginContainer,
+                        format,
+                        css: index === 0 || options.injectStyle ? css : undefined,
+                        logger,
+                        buildDependencies,
+                    })
                 })
             ])
         };

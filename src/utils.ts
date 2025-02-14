@@ -139,6 +139,10 @@ export const isJS = (path: string) => /\.(js|mjs|cjs)$/.test(path);
 /** 🕹️ 是否是 CSS 文件 */
 export const isCSS = (path: string) => /\.css$/.test(path);
 
+export const getPostcss = (): null | typeof import('postcss') => {
+    const path = resolveFrom.silent(process.cwd(), 'postcss');
+    return path && require(path);
+}
 
 export const localRequire = (moduleName: string) => {
     const path = resolveFrom.silent(process.cwd(), moduleName);

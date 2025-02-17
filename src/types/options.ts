@@ -173,9 +173,9 @@ export type Options = {
     jsxFragment?: string;
     define?: { [k: string]: string };
     /**
- * This option allows you to automatically replace a global variable with an import from another file.
- * @see https://esbuild.github.io/api/#inject
- */
+     * This option allows you to automatically replace a global variable with an import from another file.
+     * @see https://esbuild.github.io/api/#inject
+     */
     inject?: string[];
     /**
      * 将不同的格式输出到不同的文件夹，而不是使用不同的扩展名。

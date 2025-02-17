@@ -1,6 +1,7 @@
 import { cac } from 'cac';
 
 import { slash, ensureArray } from './utils';
+import { version } from '../package.json';
 import type { Options, Format } from './types/options';
 
 
@@ -27,8 +28,13 @@ export const main = async (options: Options = {}) => {
             'Watch mode, if path is not specified, it watches the current folder "." . Repeat "--watch" for more than one path'
         )
         .option('--ignore-watch <path>', 'Ignore custom paths in watch mode')
+        .option('--dts [entry]', 'Generate declaration file')
+        .option('--dts-resolve', 'Resolve externals types used for d.ts files')
+        .option('--dts-only', 'Emit declaration files only')
+        .option('--inject <file>', 'Replace a global variable with an import from another file')
+        .option('--define.* <value>', 'Define compile-time constants')
+        .option('--loader <ext=loader>', 'Specify the loader for a file extension')
         .action(async (files: string[], flags) => {
-            // console.log('build-mate:action', { files, flags });
             const { build } = await import('.');
 
             Object.assign(options, {
@@ -51,15 +57,43 @@ export const main = async (options: Options = {}) => {
                 const external = ensureArray(flags.external);
                 options.external = external;
             }
-            //TODO: dts, dtsResolve,dtsOnly
-            //TODO: inject
-            //TODO: define
-            //TODO: loader
-            // console.log('🕹️options=>', options);
+            if (flags.dts || flags.dtsResolve || flags.dtsOnly) {
+                options.dts = {};
+                if (typeof flags.dts === 'string') {
+                    options.dts.entry = flags.dts;
+                };
+                if (flags.dtsResolve) {
+                    options.dts.resolve = flags.dtsResolve
+                }
+                if (flags.dtsOnly) {
+                    options.dts.only = true;
+                }
+            };
+            if (flags.inject) {
+                const inject = ensureArray(flags.inject);
+                options.inject = inject;
+            };
+            if (flags.define) {
+                const { flatten } = await import('flat');
+                const define: Record<string, string> = flatten(flags.define);
+                options.define = define;
+            };
+            if (flags.loader) {
+                const loader = ensureArray(flags.loader);
+                options.loader = loader.reduce((acc,cur) => {
+                    const part = cur.split('=');
+                    return {
+                        ...acc,
+                        [part[0]]: part[1]
+                    }
+                }, {})
+            };
+
             await build(options);
         });
 
     cli.help();
+    cli.version(version);
     cli.parse(process.argv, { run: false });
     await cli.runMatchedCommand();
 };

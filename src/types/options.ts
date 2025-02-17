@@ -188,7 +188,17 @@ export type Options = {
      * @see https://esbuild.github.io/api/#pure
      */
     pure?: string | string[];
-    onSuccess?: string | (() => Promise<void | undefined | (() => void | Promise<void>)>)
+    onSuccess?: string | (() => Promise<void | undefined | (() => void | Promise<void>)>);
+    /**
+     * 将 publicDir 中的文件复制到输出目录
+     */
+    publicDir?: string | boolean;
+    ignoreWatch?: string[] | string;
+    /**
+     * Emit esbuild metafile
+     * @see https://esbuild.github.io/api/#metafile
+     */
+    metafile?: boolean;
 };
 
 export type NormalizedOptions = Omit<

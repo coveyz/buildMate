@@ -5,12 +5,14 @@ import execa from 'execa';
 import type { ChildProcess } from 'child_process';
 
 import { getAllDependenciesHash } from './load';
-import { removeFiles } from './utils';
+import { removeFiles, slash, debouncePromise } from './utils';
 import { PluginContainer } from './plugin';
 import { runEsbuild } from './esbuild';
 import { shebang, treeShakingPlugin, cjsSplitting, cjsInterop, es5, sizeReporter, terserPlugin } from './plugins';
+import { copyPublicDir, isInPublicDir } from './lib/public-dir';
 import type { NormalizedOptions, Options, KILL_SIGNAL } from './types/options';
 import type { Logger } from './types/log';
+import { handleError } from './errors';
 
 /** 📝 杀死进程 */
 const killProcess = (
@@ -76,7 +78,7 @@ export const mainTask = async (
         /** 📝 存储 构建过程中的依赖项 */
         const buildDependencies: Set<string> = new Set();
         /** 📝 存储 构建过程中的依赖项的 hash， 检测是否以来项 发生改变 */
-        const depsHash = await getAllDependenciesHash(process.cwd());
+        let depsHash = await getAllDependenciesHash(process.cwd());
 
         /** 📝 清理上一次构建成功后的 */
         const doOnSuccessCleanup = async () => {
@@ -92,6 +94,12 @@ export const mainTask = async (
             onSuccessProcess = undefined;
             onSuccessCleanup = undefined;
         };
+
+        const debouncedBuildAll = debouncePromise(
+            () => buildAll(),
+            100,
+            handleError
+        )
 
         const buildAll = async () => {
             await doOnSuccessCleanup();
@@ -134,7 +142,6 @@ export const mainTask = async (
                             logger,
                         })
                     ]);
-                    // console.log('📝-pluginContainer=>', pluginContainer);
 
                     await runEsbuild(options, {
                         pluginContainer,
@@ -167,7 +174,72 @@ export const mainTask = async (
             };
         };
 
+        const startWatcher = async () => {
+            if (!options.watch) return;
+            const { watch } = await import('chokidar');
+
+            const customIgnores = options.ignoreWatch
+                ? Array.isArray(options.ignoreWatch)
+                    ? options.ignoreWatch
+                    : [options.ignoreWatch]
+                : [];
+            const ignored = ['**/{.git,node_modules}/**', options.outDir, ...customIgnores];
+            const watchPaths = typeof options.watch === 'boolean'
+                ? '.'
+                : Array.isArray(options.watch)
+                    ? options.watch.filter((path) => typeof path === 'string') as string[]
+                    : options.watch;
+
+            logger.info('CLI',
+                `Watching for changes in ${Array.isArray(watchPaths)
+                    ? watchPaths.map((v) => '"' + v + '"').join(' | ')
+                    : '"' + watchPaths + '"'
+                }`
+            );
+
+            logger.info('CLI',
+                `Ignoring changes in ${ignored.map((v) => '"' + v + '"').join(' | ')}`,
+            );
+
+            const watcher = watch(watchPaths, {
+                ignored,
+                ignoreInitial: true,
+                ignorePermissionErrors: true,
+            });
+
+            watcher.on('all', async (type, file) => {
+                file = slash(file);
+
+                if (options.publicDir && isInPublicDir(options.publicDir, file)) {
+                    logger.info('CLI', `Change in public fir: ${file}`);
+                    copyPublicDir(options.publicDir, options.outDir);
+                    return;
+                };
+
+                // 默认情况下，只有当导入的文件发生变化时才会重新构建。
+                // 如果你指定了自定义的 `watch`，可以是一个字符串或多个字符串，
+                // 那么当这些文件发生变化时，我们会重新构建。
+                let shouldSkipChange = false;
+
+                if (options.watch === true) {
+                    if (file === 'package.json' && !buildDependencies.has(file)) {
+                        const currentHash = await getAllDependenciesHash(process.cwd());
+                        shouldSkipChange = currentHash === depsHash;
+                        depsHash = currentHash;
+                    } else if (!buildDependencies.has(file)) {
+                        shouldSkipChange = true;
+                    };
+                };
+                if (shouldSkipChange) return;
+
+                logger.info('CLI', `Change detected: ${type} ${file}`);
+                debouncedBuildAll();
+            });
+        };
+
         logger.info('CLI', `Target: ${options.target} 🎯`);
         await buildAll();
+        copyPublicDir(options.publicDir, options.outDir);
+        startWatcher();
     };
 };

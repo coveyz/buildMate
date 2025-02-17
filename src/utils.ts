@@ -1,6 +1,7 @@
 import fs from 'fs';
 import resolveFrom from 'resolve-from';
 
+import { handleError } from './errors';
 import type { Format } from './types/options';
 import type { Truthy } from './types/utils';
 
@@ -155,4 +156,40 @@ export const localRequire = (moduleName: string) => {
 
 export const truthy = <T>(value: T): value is Truthy<T> => {
     return Boolean(value)
-}
+};
+
+/** 🕹️ 返回 promise的函数 进行防抖 */
+export const debouncePromise = <T extends unknown[]>(
+    fn: (...args: T) => Promise<void>,
+    delay: number,
+    onError: (err: unknown) => void
+) => {
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    /** 储存当亲正在执行的 promise */
+    let promiseInFly: Promise<void> | undefined;
+    /** 储存待执行的回调函数， 当前promise执行完毕后调用 */
+    let callbackPending: (() => void) | undefined;
+
+    const debounced = (...args: Parameters<typeof fn>) => {
+        if (promiseInFly) {
+            callbackPending = () => {
+                debounced(...args);
+                callbackPending = undefined;
+            };
+        } else {
+            if (timeout != null) clearTimeout(timeout);
+
+            timeout = setTimeout(() => {
+                timeout = undefined;
+                promiseInFly = fn(...args)
+                    .catch(onError)
+                    .finally(() => {
+                        promiseInFly = undefined;
+                        if (callbackPending) callbackPending();
+                    });
+            }, delay);
+        };
+    };
+
+    return debounced;
+};

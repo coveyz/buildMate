@@ -260,9 +260,9 @@ export const runEsbuild = async (
             color: true
         });
 
+
         formatted.forEach((messages) => {
             logger.warn(format, messages);
-            // consola.warn(messages);
         });
     };
 
@@ -279,8 +279,14 @@ export const runEsbuild = async (
 
 
     if (result.metafile) {
-        const outPath = path.resolve(outDir, `metafile-${format}.json`);
-        await fs.promises.mkdir(path.dirname(outPath), { recursive: true });
-        await fs.promises.writeFile(outPath, JSON.stringify(result.metafile), 'utf8');
+        for (const file of Object.keys(result.metafile.inputs)) {
+            buildDependencies.add(file);
+        };
+
+        if (options.metafile) {
+            const outPath = path.resolve(outDir, `metafile-${format}.json`);
+            await fs.promises.mkdir(path.dirname(outPath), { recursive: true });
+            await fs.promises.writeFile(outPath, JSON.stringify(result.metafile), 'utf8');
+        };
     };
 };

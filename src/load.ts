@@ -14,11 +14,18 @@ export const loadJson = async (filePath: string) => {
     try {
         return jsoncParse(await fs.promises.readFile(filePath, 'utf-8'));
     } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(
+                `Failed to parse ${path.relative(process.cwd(), filePath)}: ${error.message}`
+            )
+        } else {
+            throw error;
+        }
     }
 };
 
 const jsonLoader = {
-    test: /\.json/,
+    test: /\.json$/,
     load(filepath: string) {
         return loadJson(filepath);
     }
@@ -31,9 +38,7 @@ export const loadPkg = async (cwd: string, clearCache: boolean = false) => {
     if (clearCache) {
         joycon.clearCache();
     };
-
     const { data } = await joycon.load(['package.json'], cwd, path.dirname(cwd));
-
     return data || {};
 };
 

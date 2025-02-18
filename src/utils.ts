@@ -1,5 +1,7 @@
 import fs from 'fs';
 import resolveFrom from 'resolve-from';
+import glob from 'globby';
+import strip from 'strip-json-comments';
 
 import { handleError } from './errors';
 import type { Format } from './types/options';
@@ -30,8 +32,7 @@ export const ensureArray = (input: string | string[]): string[] => {
 
 export const jsoncParse = async (data: string) => {
     try {
-        const stripJsonComments = (await import('strip-json-comments')).default;
-        return new Function('return ' + stripJsonComments(data).trim())();
+        return new Function('return ' + strip(data).trim())();
     } catch {
         //默默地忽略任何错误
         return {};
@@ -98,8 +99,7 @@ export const convertToObjectEntry = (entries: string[]): Record<string, string> 
 };
 
 export const removeFiles = async (patterns: string[], dir: string) => {
-    const { globby } = await import('globby');
-    const files = await globby(patterns, {
+    const files = await glob(patterns, {
         cwd: dir,
         absolute: true,
     });

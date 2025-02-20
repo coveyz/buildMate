@@ -34,11 +34,14 @@ export const tsResolvePlugin: PluginImpl<TsResolveOptions> = ({
     return {
         name: 'ts-resolve',
         async resolveId(source, importer) {
+            console.log('tsResolvePlugin=>>>>', { source, importer });
+
             debug('resolveId source: %s', source);
             debug('resolveId importer: %s', importer);
 
             if (!importer) return null;
             if (/\0/.test(source)) return null;
+            // 忽略内置模块
             if (builtinModules.includes(source)) return false;
             if (ignore && ignore(source, importer)) {
                 debug('ignored %s', source);
@@ -63,20 +66,22 @@ export const tsResolvePlugin: PluginImpl<TsResolveOptions> = ({
             const basedir = importer
                 ? await fs.promises.realpath(path.dirname(importer))
                 : process.cwd();
+
             if (source[0] === '.') {
-                return resolveModule(basedir, {
+                return resolveModule(source, {
+                    basedir,
                     extensions: resolveExtensions,
                 })
             };
 
             /** 🏖️ 解析 其他模块 */
             let id: string | null = null;
-            // if (!importer) {
-            //     id = await resolveModule(`./${source}`, {
-            //         basedir,
-            //         extensions: resolveExtensions,
-            //     });
-            // };
+            if (!importer) {
+                id = await resolveModule(`./${source}`, {
+                    basedir,
+                    extensions: resolveExtensions,
+                });
+            };
             if (!id) {
                 id = await resolveModule(source, {
                     basedir,

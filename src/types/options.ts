@@ -6,7 +6,6 @@ import type { Loader, BuildOptions, Plugin as EsbuildPlugin } from 'esbuild';
 import { Plugin, TreeshakingStrategy } from './plugin';
 
 
-
 /** 
  * SIGKILL 无法捕获错误  
  * SIGTERM 可以捕获错误

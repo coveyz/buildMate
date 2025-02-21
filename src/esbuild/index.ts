@@ -114,7 +114,7 @@ export const runEsbuild = async (
         options,
         logger,
     });
-    pluginContainer.buildStarted();
+    await pluginContainer.buildStarted();
 
     //🗽 配置
     const esbuildPlugins: (EsbuildPlugin | false | undefined)[] = [
@@ -129,7 +129,7 @@ export const runEsbuild = async (
             }
         },
         //esbuild 插件 不支持 RegExp
-        format !== 'cjs' && externalPlugin({
+        format !== 'iife' && externalPlugin({
             external,
             noExternal: options.noExternal,
             skipNodeModulesBundle: options.skipNodeModulesBundle,

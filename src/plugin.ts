@@ -89,7 +89,6 @@ export class PluginContainer {
                     }
                 }
             });
-        // console.log('📦-files=>', files);
         const writtenFiles: WrittenFile[] = [];
 
         await Promise.all(files.map(async (info) => {
@@ -145,12 +144,12 @@ export class PluginContainer {
                     }
                 })
             };
-
-            for (const plugin of this.plugins) {
-                if (plugin.buildEnd) {
-                    await plugin.buildEnd.call(this.getContext(), { writtenFiles })
-                }
-            }
         }));
+
+        for (const plugin of this.plugins) {
+            if (plugin.buildEnd) {
+                await plugin.buildEnd.call(this.getContext(), { writtenFiles });
+            }
+        }
     };
 };

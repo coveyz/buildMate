@@ -28,14 +28,15 @@ export const es5 = (): Plugin => {
             const result = await swc.transform(code, {
                 filename: info.path,
                 sourceMaps: this.options.sourcemap,
-                minify: !!this.options.minify,
+                // minify: !!this.options.minify,
+                minify: Boolean(this.options.minify),
                 jsc: {
                     target: 'es5',
                     parser: {
                         syntax: 'ecmascript'
                     },
                     minify: 
-                        this.options.minify === 'terser'
+                        this.options.minify === true
                             ? {
                                 // 是否启用 压缩
                                 compress: false, 
@@ -50,6 +51,7 @@ export const es5 = (): Plugin => {
                 }
             });
 
+            console.log('result=>', result);
 
             return {
                 code: result.code,

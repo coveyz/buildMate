@@ -34,8 +34,6 @@ export const tsResolvePlugin: PluginImpl<TsResolveOptions> = ({
     return {
         name: 'ts-resolve',
         async resolveId(source, importer) {
-            console.log('tsResolvePlugin=>>>>', { source, importer });
-
             debug('resolveId source: %s', source);
             debug('resolveId importer: %s', importer);
 

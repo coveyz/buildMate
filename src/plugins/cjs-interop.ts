@@ -19,7 +19,7 @@ export const cjsInterop = (): Plugin => {
             };
 
             return {
-                code: `${code}\nmodule.exports = export default`,
+                code: `${code}\nmodule.exports = exports.default`,
                 map: info.map
             }
         }

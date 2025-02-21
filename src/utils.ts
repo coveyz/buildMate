@@ -3,7 +3,6 @@ import resolveFrom from 'resolve-from';
 import glob from 'globby';
 import strip from 'strip-json-comments';
 
-import { handleError } from './errors';
 import type { Format } from './types/options';
 import type { Truthy } from './types/utils';
 

@@ -5,7 +5,8 @@ export const cjsSplitting = (): Plugin => {
     return {
         name: 'cjs-splitting',
         async renderChunk(code, info) {
-            if (!this.splitting ||
+            if (
+                !this.splitting ||
                 this.options.treeshake ||
                 this.format !== 'cjs' ||
                 info.type !== 'chunk' ||

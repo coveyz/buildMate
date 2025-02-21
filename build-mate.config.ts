@@ -14,19 +14,8 @@ export default defineConfig([
         target: 'node16.14',
         dts: {
             resolve: true,
-            // entry: './src/index.ts',
+            entry: './src/index.ts',
         },
+        outDir: "buildMate"
     },
-    // {
-    //     name: 'build-mate',
-    //     entry: {
-    //         foo: 'src/index.ts',
-    //         // test: 'src/index'
-    //     },
-    //     target: 'node16.14',
-    //     dts: {
-    //         resolve: true,
-    //         entry: './src/index.ts',
-    //     },
-    // }
 ]);

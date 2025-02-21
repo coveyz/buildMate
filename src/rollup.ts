@@ -22,7 +22,6 @@ const dtsPlugin: typeof import('rollup-plugin-dts') = require('rollup-plugin-dts
 
 /** 🧰 解析 TypeScript 编译选项 */
 const parseCompilerOptions = (compilerOptions: any) => {
-    // console.log('🧰-parseCompilerOptions-compilerOptions', compilerOptions);
     if (isEmpty(compilerOptions)) return {};
     const { options } = ts.parseJsonConfigFileContent({ compilerOptions }, ts.sys, './');
 
@@ -33,6 +32,7 @@ const parseCompilerOptions = (compilerOptions: any) => {
 const getRollupConfig = async (options: NormalizedOptions): Promise<RollupConfig> => {
     setSilent(options.silent);
     const compileOptions = parseCompilerOptions(options?.dts?.compilerOptions);
+
     /** 🧰 初始化 DTS选项，设置入口 */
     const dtsOptions = options.dts || {};
     dtsOptions.entry = dtsOptions.entry || options.entry;
@@ -43,6 +43,8 @@ const getRollupConfig = async (options: NormalizedOptions): Promise<RollupConfig
 
     /** 🧰 处理 typescript 解析器选项 */
     let tsResolveOptions: TsResolveOptions | undefined;
+
+
     if (dtsOptions.resolve) {
         tsResolveOptions = {};
         if (Array.isArray(dtsOptions.resolve)) {
@@ -191,7 +193,9 @@ const runRollup = async (options: RollupConfig) => {
         const start = Date.now();
         const getDuration = () => `${Math.floor(Date.now() - start)}ms`;
         logger.info('DTS', 'Build start');
+
         const bundle = await rollup(options.inputConfig);
+
         /** 🧰 写入 输出文件 */
         const results = await Promise.all(options.outputConfig.map(bundle.write));
         const outputs = results.flatMap((result) => result.output);
@@ -200,7 +204,7 @@ const runRollup = async (options: RollupConfig) => {
         reportSize(
             logger,
             'DTS',
-            outputs.reduce((acc,cur) => {
+            outputs.reduce((acc, cur) => {
                 const name = path.relative(
                     process.cwd(),
                     path.join(options.outputConfig[0].dir || '.', cur.fileName)

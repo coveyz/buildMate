@@ -34,6 +34,8 @@ export const main = async (options: Options = {}) => {
         .option('--inject <file>', 'Replace a global variable with an import from another file')
         .option('--define.* <value>', 'Define compile-time constants')
         .option('--loader <ext=loader>', 'Specify the loader for a file extension')
+        .option('--clean', "Clean output directory")
+        .option('--no-splitting', 'Disable code splitting')
         .action(async (files: string[], flags) => {
             const { build } = await import('.');
 

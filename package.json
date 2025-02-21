@@ -1,71 +1,94 @@
 {
-  "name": "build-mate",
-  "version": "0.0.0",
+  "name": "@coveyz/build-mate",
+  "version": "0.0.3",
   "description": "",
-  "main": "dist/index",
-  "keyword": [],
+  "main": "src/index.ts",
+  "keywords": [
+    "esbuild",
+    "swc"
+  ],
   "bin": {
-    "build-mate": "dist/cli-default.js"
+    "build-mate": "src/cli-default.ts"
   },
+  "types": "dist/index.d.ts",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
-    "test": "encode-bundle src/cli-*.ts src/index.ts src/rollup.ts"
+    "dev": "pnpm run build:fast --watch",
+    "build": "build-mate src/cli-*.ts src/index.ts src/rollup.ts --clean --splitting",
+    "build:fast": "npm run build --no-dts",
+    "pub": "pnpm -r publish",
+    "xxx": "pnpm run build",
+    "test": "encode-bundle src/cli-*.ts src/index.ts src/rollup.ts --clean --splitting"
   },
-  "keywords": [],
   "author": "coveyz",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
-    "@swc/cli": "^0.6.0",
-    "@swc/core": "^1.10.15",
-    "postcss": "^8.5.2",
-    "typescript": "^5.6.2"
-  },
-  "peerDependencies": {
-    "typescript": "^5.6.2"
-  },
-  "dependencies": {
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
     "@rollup/plugin-json": "^6.1.0",
-    "@types/debug": "^4.1.12",
-    "@types/node": "^22.10.6",
-    "@types/resolve": "^1.20.6",
-    "bundle-require": "^5.1.0",
-    "cac": "^6.7.14",
-    "chokidar": "^4.0.3",
+    "@swc/core": "^1.2.218",
     "colorette": "^2.0.16",
-    "consola": "^3.4.0",
-    "debug": "^4.4.0",
-    "esbuild": "^0.25.0",
-    "execa": "^5.0.0",
-    "flat": "^6.0.1",
-    "globby": "^14.0.2",
+    "flat": "^5.0.2",
     "husky": "^9.1.7",
-    "joycon": "^3.1.1",
+    "postcss": "^8.5.2",
     "postcss-load-config": "^6.0.1",
     "resolve": "^1.22.10",
-    "resolve-from": "^5.0.0",
-    "rollup": "^4.31.0",
-    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-dts": "^5.3.0",
     "rollup-plugin-hashbang": "^3.0.0",
-    "source-map": "^0.7.4",
     "strip-json-comments": "^4.0.0",
-    "sucrase": "^3.35.0",
     "svelte": "^5.20.0",
     "svelte-preprocess": "^6.0.3",
     "terser": "^5.38.1",
-    "tree-kill": "^1.2.2",
     "ts-essentials": "^10.0.4",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.2"
   },
-  "build-mate": {
-    "entry": "src/index.ts",
-    "format": "esm",
-    "target": "es2017"
+  "peerDependencies": {
+    "@swc/core": "^1",
+    "postcss": "^8.4.12",
+    "typescript": ">=4.1.0"
   },
-  "encode-bundle": {
-    "dts": {
-      "resolve": true
+  "dependencies": {
+    "@types/debug": "^4.1.12",
+    "@types/node": "^22.10.6",
+    "@types/resolve": "^1.20.6",
+    "bundle-require": "^4.0.0",
+    "cac": "^6.7.14",
+    "chokidar": "^4.0.3",
+    "consola": "^3.4.0",
+    "debug": "^4.4.0",
+    "esbuild": "^0.18.2",
+    "execa": "^5.0.0",
+    "globby": "^11.0.3",
+    "joycon": "^3.0.1",
+    "resolve-from": "^5.0.0",
+    "rollup": "^3.2.5",
+    "source-map": "^0.7.4",
+    "sucrase": "^3.20.3",
+    "tree-kill": "^1.2.2"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
     },
-    "shims": true
+    "postcss": {
+      "optional": true
+    },
+    "@swc/core": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=16.14"
+  },
+  "packageManager": "pnpm@8.6.0",
+  "encode-bundle": {
+    "name": "build-mate",
+    "dts": {
+      "resolve": true,
+      "entry": "./src/index.ts"
+    },
+    "target": "node16.14"
   }
 }

@@ -2,11 +2,11 @@
 import fs from 'fs';
 import path from 'path';
 import { loadTsConfig } from 'bundle-require';
+import glob from 'globby';
 
 import { createLogger, setSilent } from './log';
-import { handleError, PrettyError } from './errors';
+import { PrettyError } from './errors';
 import type { Options, NormalizedOptions } from './types/options';
-
 
 
 
@@ -47,8 +47,7 @@ export const normalizeOptions = async (
 
     // 确保 entry 数组
     if (Array.isArray(entry)) {
-        const { globby } = await import('globby');
-        options.entry = await globby(entry);
+        options.entry = await glob(entry);
         // 确保 entry 存在
         if (!options.entry || options.entry.length === 0) {
             throw new PrettyError(`Cannot find ${entry} 😫`);

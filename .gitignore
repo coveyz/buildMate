@@ -1,9 +1,11 @@
-.DS_Store
-pnpm-lock.yaml
-.vscode
-
 node_modules
 *.log
 dist
 .cache
-buildMate
+playground
+.idea
+
+pnpm-lock
+
+build-mate
+.DS_Store

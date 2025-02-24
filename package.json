@@ -2,15 +2,22 @@
   "name": "@coveyz/build-mate",
   "version": "0.0.9",
   "description": "",
+  "author": "coveyz",
+  "license": "MIT",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "build-mate": "dist/cli-default.js"
+  },
   "keywords": [
     "esbuild",
     "swc"
   ],
-  "bin": {
-    "build-mate": "dist/cli-default.js"
-  },
-  "types": "dist/index.d.ts",
+  "files": [
+    "/dist",
+    "/assets",
+    "README.md"
+  ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
@@ -21,8 +28,11 @@
     "xxx": "pnpm run build",
     "test": "encode-bundle src/cli-*.ts src/index.ts src/rollup.ts --clean --splitting"
   },
-  "author": "coveyz",
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coveyz/buildMate.git"
+  },
+  "homepage": "https://github.com/coveyz/buildMate#readme",
   "devDependencies": {
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",

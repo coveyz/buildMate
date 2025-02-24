@@ -175,7 +175,7 @@ const watchRollup = async (options: { inputConfig: InputOptions, outputConfig: O
             logger.info('DTS', 'Build start');
         }
         else if (event.code === 'BUNDLE_END') {
-            logger.success('DTS', `⚡️ Build success in ${event.duration}ms`);
+            logger.success('DTS', `⚡️ Build success in ${event.duration}ms 🎉`);
             parentPort?.postMessage('success');
         }
         else if (event.code === 'ERROR') {
@@ -200,7 +200,7 @@ const runRollup = async (options: RollupConfig) => {
         const results = await Promise.all(options.outputConfig.map(bundle.write));
         const outputs = results.flatMap((result) => result.output);
 
-        logger.success('DTS', `⚡️ Build success in ${getDuration()}`);
+        logger.success('DTS', `⚡️ Build success in ${getDuration()} 🎉`);
         reportSize(
             logger,
             'DTS',

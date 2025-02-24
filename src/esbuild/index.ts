@@ -274,7 +274,7 @@ export const runEsbuild = async (
         });
         const timeInMs = Date.now() - startTIme;
 
-        logger.success(format, `Build success in ${Math.floor(timeInMs)}ms`);
+        logger.success(format, `Build success in ${Math.floor(timeInMs)}ms 🎉`);
     };
 
 

@@ -172,7 +172,7 @@ const watchRollup = async (options: { inputConfig: InputOptions, outputConfig: O
         output: options.outputConfig,
     }).on('event', (event) => {
         if (event.code === 'START') {
-            logger.info('DTS', 'Build start');
+            logger.info('DTS', 'Build start 🚀');
         }
         else if (event.code === 'BUNDLE_END') {
             logger.success('DTS', `⚡️ Build success in ${event.duration}ms 🎉`);
@@ -192,7 +192,7 @@ const runRollup = async (options: RollupConfig) => {
     try {
         const start = Date.now();
         const getDuration = () => `${Math.floor(Date.now() - start)}ms`;
-        logger.info('DTS', 'Build start');
+        logger.info('DTS', 'Build start 🚀');
 
         const bundle = await rollup(options.inputConfig);
 

@@ -2,7 +2,7 @@ import { parentPort, isMainThread } from 'worker_threads';
 import util from 'util';
 import * as colors from 'colorette';
 
-import type { LoG_TYPE } from './types/log';
+import type { LOG_TYPE } from './types/log';
 
 
 let silent = false;
@@ -17,7 +17,7 @@ export const getSilent = () => {
 
 /** 📔 根据日志类型 为数据添加颜色 */
 export const colorize = (
-    type: LoG_TYPE,
+    type: LOG_TYPE,
     data: any,
     onlyImportant = false
 ) => {
@@ -37,7 +37,7 @@ export const colorize = (
 export const makeLabel = (
     name: string | undefined,
     input: string,
-    type: LoG_TYPE
+    type: LOG_TYPE
 ) => {
     return [
         name && `${colors.dim('[')}${name.toUpperCase()}${colors.dim(']')}`,
@@ -67,7 +67,7 @@ export const createLogger = (name?: string) => {
         },
         log(
             label: string,
-            type: LoG_TYPE,
+            type: LOG_TYPE,
             ...data: unknown[]
         ) {
             const args = [

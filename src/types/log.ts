@@ -2,4 +2,4 @@ import { createLogger } from '../log';
 
 export type Logger = ReturnType<typeof createLogger>;
 
-export type LoG_TYPE = 'success' | 'info' | 'warn' | 'error'; 
+export type LOG_TYPE = 'success' | 'info' | 'warn' | 'error'; 

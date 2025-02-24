@@ -93,7 +93,7 @@ export const runEsbuild = async (
             : 'development';
     };
 
-    logger.info(format, 'Build start');
+    logger.info(format, 'Build start 🚀');
     const startTIme = Date.now();
 
     let result: BuildResult | undefined;

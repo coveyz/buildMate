@@ -1,7 +1,7 @@
 import { loadBuildMateConfig } from './load';
 import { createLogger } from './log';
 import { normalizeOptions } from './options';
-import { version } from '../package.json';
+import { version } from './version';
 import { dtsTask, mainTask } from './tasks';
 import type { MaybePromise } from './types/utils';
 import type { Options, Format, NormalizedOptions } from './types/options';

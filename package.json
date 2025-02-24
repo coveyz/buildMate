@@ -1,6 +1,6 @@
 {
   "name": "@coveyz/build-mate",
-  "version": "0.0.11",
+  "version": "0.0.0-beta1",
   "description": "",
   "author": "coveyz",
   "license": "MIT",
@@ -27,7 +27,10 @@
     "xxx": "pnpm run build",
     "test": "encode-bundle src/cli-*.ts src/index.ts src/rollup.ts --clean --splitting",
     "prepublishOnly": "npm run build",
-    "pub": "pnpm -r publish"
+    "pub": "pnpm -r publish",
+    "gen:version": "tsx scripts/gen-version.ts",
+    "update:version": "tsx scripts/update-version.ts",
+    "postinstall": "concurrently \"pnpm run gen:version\""
   },
   "repository": {
     "type": "git",
@@ -41,6 +44,7 @@
     "@swc/core": "^1.2.218",
     "@types/flat": "^5.0.5",
     "colorette": "^2.0.16",
+    "concurrently": "7.2.2",
     "flat": "^5.0.2",
     "husky": "^8.0.0",
     "postcss": "^8.5.2",
@@ -53,6 +57,7 @@
     "terser": "^5.38.1",
     "ts-essentials": "^10.0.4",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.0.2"
   },
   "peerDependencies": {
@@ -62,6 +67,7 @@
   },
   "dependencies": {
     "@coveyz/build-mate": "0.0.10",
+    "@pnpm/find-workspace-packages": "^6.0.9",
     "@types/debug": "^4.1.12",
     "@types/node": "^22.10.6",
     "@types/resolve": "^1.20.6",

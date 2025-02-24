@@ -88,8 +88,8 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2
       husky:
-        specifier: ^9.1.7
-        version: 9.1.7
+        specifier: ^8.0.0
+        version: 8.0.0
       postcss:
         specifier: ^8.5.2
         version: 8.5.3
@@ -847,9 +847,9 @@ packages:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
 
-  husky@9.1.7:
-    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
-    engines: {node: '>=18'}
+  husky@8.0.0:
+    resolution: {integrity: sha512-4qbE/5dzNDNxFEkX9MNRPKl5+omTXQzdILCUWiqG/lWIAioiM5vln265/l6I2Zx8gpW8l1ukZwGQeCFbBZ6+6w==}
+    engines: {node: '>=14'}
     hasBin: true
 
   ignore@5.3.2:
@@ -2092,7 +2092,7 @@ snapshots:
 
   human-signals@2.1.0: {}
 
-  husky@9.1.7: {}
+  husky@8.0.0: {}
 
   ignore@5.3.2: {}
 

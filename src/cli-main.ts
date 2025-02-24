@@ -1,4 +1,5 @@
 import { cac } from 'cac';
+import flat from 'flat';
 
 import { slash, ensureArray } from './utils';
 import { version } from '../package.json';
@@ -76,8 +77,7 @@ export const main = async (options: Options = {}) => {
                 options.inject = inject;
             };
             if (flags.define) {
-                const { flatten } = await import('flat');
-                const define: Record<string, string> = flatten(flags.define);
+                const define: Record<string, string> = flat(flags.define);
                 options.define = define;
             };
             if (flags.loader) {

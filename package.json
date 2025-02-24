@@ -1,6 +1,6 @@
 {
   "name": "@coveyz/build-mate",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "description": "",
   "author": "coveyz",
   "license": "MIT",
@@ -24,9 +24,10 @@
     "dev": "pnpm run build:fast --watch",
     "build": "build-mate src/cli-*.ts src/index.ts src/rollup.ts --clean --splitting",
     "build:fast": "npm run build --no-dts",
-    "pub": "pnpm -r publish",
     "xxx": "pnpm run build",
-    "test": "encode-bundle src/cli-*.ts src/index.ts src/rollup.ts --clean --splitting"
+    "test": "encode-bundle src/cli-*.ts src/index.ts src/rollup.ts --clean --splitting",
+    "prepublishOnly": "npm run build",
+    "pub": "pnpm -r publish"
   },
   "repository": {
     "type": "git",
@@ -59,8 +60,7 @@
     "typescript": ">=4.1.0"
   },
   "dependencies": {
-    "postcss-load-config": "^6.0.1",
-    "@coveyz/build-mate": "0.0.8",
+    "@coveyz/build-mate": "0.0.10",
     "@types/debug": "^4.1.12",
     "@types/node": "^22.10.6",
     "@types/resolve": "^1.20.6",
@@ -73,6 +73,7 @@
     "execa": "^5.0.0",
     "globby": "^11.0.3",
     "joycon": "^3.0.1",
+    "postcss-load-config": "^6.0.1",
     "resolve-from": "^5.0.0",
     "rollup": "^3.2.5",
     "source-map": "^0.7.4",

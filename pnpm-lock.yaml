@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@coveyz/build-mate':
-        specifier: 0.0.8
-        version: 0.0.8(@swc/core@1.10.18)(postcss@8.5.3)(typescript@5.7.3)
+        specifier: 0.0.10
+        version: 0.0.10(@swc/core@1.10.18)(jiti@2.4.2)(postcss@8.5.3)(typescript@5.7.3)
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
@@ -203,6 +203,22 @@ packages:
   '@commitlint/types@19.5.0':
     resolution: {integrity: sha512-DSHae2obMSMkAtTBSOulg5X7/z+rGLxcXQIkg3OmWvY6wifojge5uVMydfhUvs7yQj+V7jNmRZ2Xzl8GJyqRgg==}
     engines: {node: '>=v18'}
+
+  '@coveyz/build-mate@0.0.10':
+    resolution: {integrity: sha512-YEWRDOYMENxeRudqvnHucorZKUQkk8rOnTf99xMhasQ7Ob4AawnhwG9qinOd8FE5IjXa2b2wUj2R3hxG4C2GRw==}
+    engines: {node: '>=16.14'}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': ^1
+      postcss: ^8.4.12
+      typescript: '>=4.1.0'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      postcss:
+        optional: true
+      typescript:
+        optional: true
 
   '@coveyz/build-mate@0.0.8':
     resolution: {integrity: sha512-2cZWAord7YODJbSbFmof9AqKbAnNjQnT/J7g0+u9AyXTXKLW030ECWyinfNo4vjEHFKSBNRqrRaD2uqtQ6CDkg==}
@@ -1503,6 +1519,37 @@ snapshots:
     dependencies:
       '@types/conventional-commits-parser': 5.0.1
       chalk: 5.4.1
+
+  '@coveyz/build-mate@0.0.10(@swc/core@1.10.18)(jiti@2.4.2)(postcss@8.5.3)(typescript@5.7.3)':
+    dependencies:
+      '@coveyz/build-mate': 0.0.8(@swc/core@1.10.18)(postcss@8.5.3)(typescript@5.7.3)
+      '@types/debug': 4.1.12
+      '@types/node': 22.13.5
+      '@types/resolve': 1.20.6
+      bundle-require: 4.2.1(esbuild@0.18.20)
+      cac: 6.7.14
+      chokidar: 4.0.3
+      consola: 3.4.0
+      debug: 4.4.0
+      esbuild: 0.18.20
+      execa: 5.1.1
+      globby: 11.1.0
+      joycon: 3.1.1
+      postcss-load-config: 6.0.1(jiti@2.4.2)(postcss@8.5.3)
+      resolve-from: 5.0.0
+      rollup: 3.29.5
+      source-map: 0.7.4
+      sucrase: 3.35.0
+      tree-kill: 1.2.2
+    optionalDependencies:
+      '@swc/core': 1.10.18
+      postcss: 8.5.3
+      typescript: 5.7.3
+    transitivePeerDependencies:
+      - jiti
+      - supports-color
+      - tsx
+      - yaml
 
   '@coveyz/build-mate@0.0.8(@swc/core@1.10.18)(postcss@8.5.3)(typescript@5.7.3)':
     dependencies:

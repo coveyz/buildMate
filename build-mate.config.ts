@@ -7,5 +7,4 @@ export default defineConfig({
         resolve: true,
         entry: './src/index.ts',
     },
-    outDir: 'build-mate'
 });

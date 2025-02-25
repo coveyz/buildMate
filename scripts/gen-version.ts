@@ -4,6 +4,8 @@ import consola from 'consola';
 
 import pkg from '../package.json';
 
+
+
 const getVersion = () => {
     const tagVersion = process.env.TAG_VERSION;
 

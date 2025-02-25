@@ -26,7 +26,6 @@
     "build:fast": "npm run build --no-dts",
     "xxx": "pnpm run build",
     "test": "encode-bundle src/cli-*.ts src/index.ts src/rollup.ts --clean --splitting",
-    "prepublishOnly": "npm run build",
     "pub": "pnpm -r publish",
     "gen:version": "tsx scripts/gen-version.ts",
     "update:version": "tsx scripts/update-version.ts",

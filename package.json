@@ -29,7 +29,6 @@
     "pub": "pnpm -r publish",
     "gen:version": "tsx scripts/gen-version.ts",
     "update:version": "tsx scripts/update-version.ts",
-    "postinstall": "pnpm run gen:version"
   },
   "repository": {
     "type": "git",

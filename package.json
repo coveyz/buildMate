@@ -29,7 +29,7 @@
     "pub": "pnpm -r publish",
     "gen:version": "tsx scripts/gen-version.ts",
     "update:version": "tsx scripts/update-version.ts",
-    "postinstall": "concurrently \"pnpm run gen:version\""
+    "postinstall": "pnpm run gen:version"
   },
   "repository": {
     "type": "git",
@@ -39,9 +39,14 @@
   "devDependencies": {
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
+    "@coveyz/build-mate": "0.0.10",
+    "@pnpm/find-workspace-packages": "^6.0.9",
     "@rollup/plugin-json": "^6.1.0",
     "@swc/core": "^1.2.218",
+    "@types/debug": "^4.1.12",
     "@types/flat": "^5.0.5",
+    "@types/node": "^22.10.6",
+    "@types/resolve": "^1.20.6",
     "colorette": "^2.0.16",
     "concurrently": "7.2.2",
     "flat": "^5.0.2",
@@ -56,7 +61,7 @@
     "terser": "^5.38.1",
     "ts-essentials": "^10.0.4",
     "ts-node": "^10.9.2",
-    "tsx": "^4.19.3",
+    "tsx": "^3.6.0",
     "typescript": "^5.0.2"
   },
   "peerDependencies": {
@@ -65,11 +70,6 @@
     "typescript": ">=4.1.0"
   },
   "dependencies": {
-    "@coveyz/build-mate": "0.0.10",
-    "@pnpm/find-workspace-packages": "^6.0.9",
-    "@types/debug": "^4.1.12",
-    "@types/node": "^22.10.6",
-    "@types/resolve": "^1.20.6",
     "bundle-require": "^4.0.0",
     "cac": "^6.7.14",
     "chokidar": "^4.0.3",
@@ -79,7 +79,7 @@
     "execa": "^5.0.0",
     "globby": "^11.0.3",
     "joycon": "^3.0.1",
-    "postcss-load-config": "^6.0.1",
+    "postcss-load-config": "^4.0.1",
     "resolve-from": "^5.0.0",
     "rollup": "^3.2.5",
     "source-map": "^0.7.4",

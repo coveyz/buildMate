@@ -3,7 +3,9 @@
 set -e
 
 pnpm i
-pnpm update:version;
+
+pnpm update:version
+pnpm gen:version
 
 pnpm run build
 

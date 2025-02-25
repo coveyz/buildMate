@@ -28,7 +28,7 @@
     "test": "encode-bundle src/cli-*.ts src/index.ts src/rollup.ts --clean --splitting",
     "pub": "pnpm -r publish",
     "gen:version": "tsx scripts/gen-version.ts",
-    "update:version": "tsx scripts/update-version.ts",
+    "update:version": "tsx scripts/update-version.ts"
   },
   "repository": {
     "type": "git",
